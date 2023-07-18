@@ -1,0 +1,20 @@
+apiVersion: skaffold/v2beta18
+kind: Config
+profiles:
+  - name: dev                 # skaffold 실행시 -p로 정의된 profile
+    build:
+      local:
+        push: true # false는 로컬 테스트
+      artifacts:
+        - image: 101440814867.dkr.ecr.ap-northeast-2.amazonaws.com/api-start
+          jib:
+            args:
+              - -DskipTests
+              - "-Djib.container.environment=SPRING_PROFILES_ACTIVE=dev"  # jib 플러그인을 통해 dev profile에 대해 수행
+            fromImage: 101440814867.dkr.ecr.ap-northeast-2.amazonaws.com/eclipse-temurin:17.0.7_7-jre-DAmo-20230705       # 실행을 위한 runtime image
+            # fromImage: eclipse-temurin:17.0.2.8-jre       # 실행을 위한 runtime image
+            # fromImage: library/openjdk:17-jdk-slim       # 실행을 위한 runtime image
+    deploy:
+      kustomize:
+        paths:
+          - k8s/k3s

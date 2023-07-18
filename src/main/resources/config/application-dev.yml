@@ -1,0 +1,44 @@
+#-------------------------
+# dev
+# application-dev.yml
+#-------------------------
+spring:
+  #-------------------------
+  # spring.datasource
+  #-------------------------
+  datasource:
+    url: jdbc:postgresql://hanex-dev-database.cluster-coherc69qjmr.ap-northeast-2.rds.amazonaws.com:5432/hanexdb
+    driverClassName: org.postgresql.Driver
+    username: hanexuser
+    password: hanex1234!!
+  #-------------------------
+  # spring.redis
+  #-------------------------
+  redis:
+    host: hanex-dev-redis-temp-db5c4f047cbd7f9e.elb.ap-northeast-2.amazonaws.com
+    port: 6379
+    cluster:
+      mode: false
+  #--------------------------
+  # spring.cloud.stream (kafka 설정)
+  #--------------------------
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: hanex-dev-msk-temp-2585158e031383aa.elb.ap-northeast-2.amazonaws.com:9092
+
+
+
+#-------------------------
+# logging
+#-------------------------
+logging:
+  config: classpath:log4j2-dev.xml
+
+#--------------------------
+# API CONFIG
+#--------------------------
+api:
+  auth-service:
+    url: http://auth-service-svc.fms.svc:8080

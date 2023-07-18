@@ -1,0 +1,97 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.12'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.google.cloud.tools.jib' version '3.3.0'
+}
+
+group = 'com.hanex'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+
+	all {
+		//logback과의 충돌 방지
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+def getDate() {
+	new Date().format('yyyy-MM-dd HH:mm:ss')
+}
+
+ext {
+	set('springCloudVersion', "2021.0.7")
+	timestamp = getDate()
+}
+
+// app banner
+task appInfo {
+
+	springBoot {
+		buildInfo {
+		}
+		finalizedBy 'processResources'
+	}
+
+	processResources {
+		filesMatching('**/application.yml') {
+			expand(project.properties)
+		}
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation 'org.springframework.boot:spring-boot-starter-aop' // aop
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc' // spring data jdbc
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation "org.springframework.cloud:spring-cloud-starter-openfeign"  // OpenFeign
+	implementation 'org.springframework.cloud:spring-cloud-starter-stream-kafka' // Kafka
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2' // log4j2
+
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14' // swagger
+	
+	// ---------- jwt start
+	implementation "io.jsonwebtoken:jjwt-api:0.11.2"
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	// ---------- jwt end
+	implementation 'com.google.guava:guava:31.1-jre'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	implementation files('libs/scpdb.jar')
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_DATE_PATTERN">{yyyy-MM-dd HH:mm:ss.SSS}</Property>
+        <Property name="LOG_MDC_PATTERN">[%equals{%X{trace_id}}{}{startup}]</Property>
+        <Property name="LOG_LEVEL_PATTERN">{-%5p}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} %style{${sys:PID}}{magenta} [%15.15t] %style{%-40.40C{1.}(:%L)}{cyan}</Property>
+        <Property name="LOG_MESSAGE_PATTERN">: %m%n%xwEx</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%d${LOG_DATE_PATTERN} ${LOG_MDC_PATTERN} %highlight${LOG_LEVEL_PATTERN} ${LOG_MESSAGE_PATTERN}"/>
+        </Console>
+    </Appenders>
+
+    <!--Log 대상 설정-->
+    <!--TRACE > DEBUG > INFO > WARN > ERROR > FATAL -->
+    <Loggers>
+
+        <Logger name="org.springframework" level="ERROR" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <Logger name="org.springframework.jdbc.core" level="TRACE" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <!--kafka 관련 로그 안볼때 level OFF 로 설정-->
+        <Logger name="org.apache.kafka.common" level="OFF" additivity="false">
+            <AppenderRef ref="Console"  level="OFF"/>
+        </Logger>
+
+        <Logger name="com.hanex.starter" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+    </Loggers>
+</Configuration>

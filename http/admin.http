@@ -1,0 +1,19 @@
+#-----------------------
+# admin.http
+# 관리자 API > ROLE_ADMIN 권한 필요
+#-----------------------
+
+### 1. UserStatus 를 조건으로 User List 조회 (admin 권한)
+GET /v1/admin/users
+Host: localhost:8080
+Authorization: Bearer {{access_token}}
+
+### 2. 사용자 id 로 상세조회
+GET /v1/admin/users/{{user_id}}
+Host: localhost:8080
+Authorization: Bearer {{access_token}}
+
+### 3. 사용자 정지
+GET /v1/admin/users/ban{{user_id}}
+Host: localhost:8080
+Authorization: Bearer {{access_token}}

@@ -1,0 +1,12 @@
+#-----------------------
+# order.http
+# 주문 API 테스트
+#-----------------------
+
+### 1. order 생성
+POST /v1/order
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
