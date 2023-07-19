@@ -4,10 +4,10 @@
 #-------------------------
 spring:
   datasource:
-    url: jdbc:postgresql://hanex-dev-rds-temp-708b1e60bce84582.elb.ap-northeast-2.amazonaws.com:5432/hanexdb
+    url: jdbc:postgresql://192.168.41.50:5432/openmsadb
     driverClassName: org.postgresql.Driver
-    username: hanexuser
-    password: hanex1234!!
+    username: openmsauser
+    password: open1234!!
     # url: jdbc:h2:mem:starter;MODE=PostgreSQL;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true
     #url: jdbc:h2:mem:starter;INIT=RUNSCRIPT FROM 'classpath:db/ddl.sql';MODE=PostgreSQL;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true
     #url: jdbc:h2:~/starter;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
