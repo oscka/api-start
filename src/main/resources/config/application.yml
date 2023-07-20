@@ -29,19 +29,9 @@ spring:
       defaultBinder: kafka
       # spring.cloud.stream.function
       function:
-        definition: productUpdate;findUser
+        definition: findUser;
       # spring.cloud.stream.bindings
       bindings:
-        productUpdate-in-0:
-          destination: product-update-topic
-          group: product
-          contentType: application/json
-          consumer:
-            max-attempts: 2
-        productUpdate-out-0:
-          destination: product-update-topic
-          contentType: application/json
-
         findUser-in-0:
           destination: find-user-topic
           group: user
@@ -61,11 +51,11 @@ spring:
             useTopicHeader: true
         # spring.cloud.stream.kafka.bindings
         bindings:
-          productUpdate-in-0:
+          findUser-in-0:
             consumer:
               autoCommitOffset: false # 메시지가 처리되었을 경우, 오프셋을 자동으로 커밋할지를 설정한다.
               enableDlq: true
-              dlqName: product-update-dlq
+              dlqName: find-user-dlq
               #dlqPartitions: 1
         # spring.cloud.stream.kafka.binder
         binder:

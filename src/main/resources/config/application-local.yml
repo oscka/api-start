@@ -18,8 +18,13 @@ spring:
     console:
       enabled: true
       #path: /h2-console  # H2 Console의 Path
+
+  #-------------------------
+  # spring.redis
+  #-------------------------
   redis:
-    host: hanex-dev-redis-temp-db5c4f047cbd7f9e.elb.ap-northeast-2.amazonaws.com
+    # host: host.docker.internal
+    host: 192.168.41.50 #개발서버 싱글 redis
     port: 6379
     cluster:
       mode: false
@@ -30,9 +35,8 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: hanex-dev-msk-temp-2585158e031383aa.elb.ap-northeast-2.amazonaws.com:9092
-          # brokers: localhost:29092
-          # zkNodes: localhost:22181
+          brokers: localhost:29092
+          zkNodes: localhost:22181
 
 logging:
   config: classpath:log4j2-local.xml

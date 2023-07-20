@@ -11,14 +11,16 @@ spring:
     driverClassName: org.postgresql.Driver
     username: openmsauser
     password: open1234!!
+
   #-------------------------
   # spring.redis
   #-------------------------
   redis:
-    host: hanex-dev-redis-temp-db5c4f047cbd7f9e.elb.ap-northeast-2.amazonaws.com
-    port: 6379
     cluster:
-      mode: false
+      mode: true
+      # 6379 : master , 6380 slave
+      nodes: redis-service.redis:6379,redis-service.redis:6380
+      max-redirect: 3
   #--------------------------
   # spring.cloud.stream (kafka 설정)
   #--------------------------
@@ -26,7 +28,11 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: hanex-dev-msk-temp-2585158e031383aa.elb.ap-northeast-2.amazonaws.com:9092
+          brokers: kafka-headless.kafka:9092, kafka-headless.kafka:9093
+          # brokers:
+          # - kafka-0.kafka-headless.kafka.svc.cluster.local:9092
+          # - kafka-1.kafka-headless.kafka.svc.cluster.local:9092
+          # - kafka-2.kafka-headless.kafka.svc.cluster.local:9092
 
 
 
