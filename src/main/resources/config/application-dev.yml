@@ -19,7 +19,9 @@ spring:
     cluster:
       mode: true
       # 6379 : master , 6380 slave
-      nodes: redis-service.redis:6379,redis-service.redis:6380
+      # nodes: redis-service.redis:6379,redis-service.redis:6380
+      nodes:
+        - redis-service.redis:6379
       max-redirect: 3
   #--------------------------
   # spring.cloud.stream (kafka 설정)
@@ -28,7 +30,9 @@ spring:
     stream:
       kafka:
         binder:
-          brokers: kafka-headless.kafka:9092, kafka-headless.kafka:9093
+          # brokers: kafka-headless.kafka:9092, kafka-headless.kafka:9093
+          brokers: 
+            - kafka-headless.kafka:9092
           # brokers:
           # - kafka-0.kafka-headless.kafka.svc.cluster.local:9092
           # - kafka-1.kafka-headless.kafka.svc.cluster.local:9092
