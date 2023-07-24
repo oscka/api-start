@@ -9,11 +9,11 @@ Host: localhost:8080
 Authorization: Bearer {{access_token}}
 
 ### 2. 사용자 id 로 상세조회
-GET /v1/admin/users/{{user_id}}
+GET /v1/admin/user/{{user_id}}
 Host: localhost:8080
 Authorization: Bearer {{access_token}}
 
 ### 3. 사용자 정지
-GET /v1/admin/users/ban{{user_id}}
+GET /v1/admin/user/ban{{user_id}}
 Host: localhost:8080
 Authorization: Bearer {{access_token}}

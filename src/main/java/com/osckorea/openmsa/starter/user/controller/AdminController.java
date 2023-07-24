@@ -24,19 +24,19 @@ public class AdminController {
 
     @Operation(summary = "사용자 id 로 상세조회", description = "UUID 로 조회")
     @GetMapping("/user/{id}")
-    public ApiResponseDto findById(UUID id){
+    public ApiResponseDto findById(@RequestParam(value = "id") UUID id){
         return ApiResponseDto.createOK(adminService.findById(id));
     }
 
     @Operation(summary = "UserStatus > 정지 update",description = "사용자 상태 정지")
     @PutMapping("/user/ban/{id}")
-    public ApiResponseDto userBan(UUID id){
+    public ApiResponseDto userBan(@RequestParam(value = "id") UUID id){
         adminService.userBan(id);
         return ApiResponseDto.DEFAULT_OK;
     }
 
     @Operation(summary = "UserStatus 를 조건으로 User List 조회",description = "사용자 리스트 조회")
-    @GetMapping("/user")
+    @GetMapping("/users")
     public ApiResponseDto findByUserStatus(@PageableDefault(size = 50, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                           @RequestParam(defaultValue = "ACTIVE") String userStatus){
         return ApiResponseDto.createOK(adminService.findByUserStatus(pageable,userStatus));

@@ -43,8 +43,13 @@ client.global.set("access_token",response.body.accessToken) // 토큰 값을 glo
 ### 3. 사용자 조회 (회원조회-detail)
 # /v1/users/{loginId}
 GET /v1/users/admin
-Host: localhost:8080
+Host: localhost:18080
 Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+
+
+
 
 ### 4. 사용자 수정 (회원수정)
 # PUT /v1/users/{loginId}
