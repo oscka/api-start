@@ -23,7 +23,9 @@ import com.osckorea.openmsa.starter.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "사용자 API",description = "JWT 토큰 발급용 사용자")
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
