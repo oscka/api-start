@@ -24,13 +24,13 @@ public class AdminController {
 
     @Operation(summary = "사용자 id 로 상세조회", description = "UUID 로 조회")
     @GetMapping("/user/{id}")
-    public ApiResponseDto findById(@RequestParam(value = "id") UUID id){
+    public ApiResponseDto findById(@PathVariable(value = "id") UUID id){
         return ApiResponseDto.createOK(adminService.findById(id));
     }
 
     @Operation(summary = "UserStatus > 정지 update",description = "사용자 상태 정지")
     @PutMapping("/user/ban/{id}")
-    public ApiResponseDto userBan(@RequestParam(value = "id") UUID id){
+    public ApiResponseDto userBan(@PathVariable(value = "id") UUID id){
         adminService.userBan(id);
         return ApiResponseDto.DEFAULT_OK;
     }
