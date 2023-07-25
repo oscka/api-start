@@ -21,9 +21,16 @@ spring:
     location: "classpath:config/app-banner.txt"
   lifecycle:
     timeout-per-shutdown-phase: 35s # graceful shutdown 유예시간 설정 (default 30s)
-  #--------------------------
-  # spring.cloud.stream (kafka 설정)
-  #--------------------------
+#--------------------------
+# spring.mvc
+#--------------------------
+mvc:
+  view:
+    prefix: classpath:/templates/
+    suffix: .html
+#--------------------------
+# spring.cloud.stream (kafka 설정)
+#--------------------------
   cloud:
     stream:
       defaultBinder: kafka

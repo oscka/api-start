@@ -55,6 +55,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-aop' // aop
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc' // spring data jdbc
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis
