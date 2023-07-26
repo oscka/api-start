@@ -1,7 +1,5 @@
-package com.osckorea.openmsa.global.config;
+package com.osckorea.openmsa.starter.common.config;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +16,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
+import com.osckorea.openmsa.global.config.CorsConfig;
 import com.osckorea.openmsa.global.exception.Exception401;
 import com.osckorea.openmsa.global.exception.Exception403;
 import com.osckorea.openmsa.global.security.FilterResponseUtil;
-import com.osckorea.openmsa.global.security.JwtRequestFilter;
+import com.osckorea.openmsa.starter.common.security.JwtRequestFilter;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,7 +1,10 @@
 package com.osckorea.openmsa.starter.user.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.stereotype.Service;
 
 import com.osckorea.openmsa.global.annotation.CustomLog;
@@ -16,10 +19,8 @@ import com.osckorea.openmsa.starter.user.kafka.UserKafkaProducer;
 import com.osckorea.openmsa.starter.user.kafka.event.UserFindEvent;
 import com.osckorea.openmsa.starter.user.repository.UserRepository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,12 +1,11 @@
 package com.osckorea.openmsa.starter.user.domain;
 
-import lombok.Builder;
-import lombok.Value;
-import org.springframework.data.relational.core.mapping.Column;
+import javax.validation.constraints.NotNull;
 
 import com.osckorea.openmsa.global.enums.UserRole;
 
-import javax.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Value;
 
 @Builder
 @Value

@@ -1,8 +1,13 @@
-package com.osckorea.openmsa.global.security;
+package com.osckorea.openmsa.starter.common.security;
 
-import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import java.io.IOException;
+import java.util.UUID;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,14 +16,16 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.util.StringUtils;
 
 import com.osckorea.openmsa.global.enums.UserRole;
+import com.osckorea.openmsa.global.security.SecurityConstants;
 import com.osckorea.openmsa.starter.user.domain.User;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.UUID;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**

@@ -1,12 +1,12 @@
 package com.osckorea.openmsa.starter.user.repository;
 
+import java.util.UUID;
+
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.data.jdbc.core.JdbcAggregateOperations;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.osckorea.openmsa.starter.user.domain.User;
-
-import java.util.UUID;
 
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 

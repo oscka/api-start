@@ -1,5 +1,11 @@
 package com.osckorea.openmsa.starter.user.repository;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
@@ -10,8 +16,6 @@ import org.springframework.stereotype.Repository;
 import com.osckorea.openmsa.global.enums.UserStatus;
 import com.osckorea.openmsa.global.util.jdbc.WithInsert;
 import com.osckorea.openmsa.starter.user.domain.User;
-
-import java.util.*;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, UUID> , UserRepositoryCustom , WithInsert<User> {

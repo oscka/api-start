@@ -1,9 +1,7 @@
 package com.osckorea.openmsa.starter.user.dto;
 
+import java.time.Instant;
 import java.util.UUID;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +12,12 @@ import com.osckorea.openmsa.global.enums.UserStatus;
 import com.osckorea.openmsa.global.util.CommonEncoder;
 import com.osckorea.openmsa.starter.user.domain.User;
 
-import java.time.Instant;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class UserDto{
 

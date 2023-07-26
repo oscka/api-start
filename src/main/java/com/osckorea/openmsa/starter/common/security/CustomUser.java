@@ -1,4 +1,4 @@
-package com.osckorea.openmsa.global.security;
+package com.osckorea.openmsa.starter.common.security;
 
 import lombok.Getter;
 import lombok.Setter;

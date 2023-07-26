@@ -1,19 +1,19 @@
 package com.osckorea.openmsa.starter.user.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.osckorea.openmsa.global.annotation.CustomLog;
 import com.osckorea.openmsa.global.enums.UserStatus;
 import com.osckorea.openmsa.global.exception.Exception404;
 import com.osckorea.openmsa.starter.user.domain.User;
 import com.osckorea.openmsa.starter.user.dto.UserDto;
 import com.osckorea.openmsa.starter.user.repository.UserRepository;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
