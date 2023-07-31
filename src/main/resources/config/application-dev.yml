@@ -22,6 +22,7 @@ spring:
       # nodes: redis-service.redis:6379,redis-service.redis:6380
       nodes:
         - redis-service.redis:6379
+        - redis-service.redis:6380
       max-redirect: 3
   #--------------------------
   # spring.cloud.stream (kafka 설정)

@@ -70,8 +70,7 @@ public class RedisConfig {
         if (clusterMode){
             // 클러스터 호스트 세팅
             RedisClusterConfiguration clusterConfig = new RedisClusterConfiguration(redisProperties.getCluster().getNodes());
-            // clusterConfig.setMaxRedirects(redisProperties.getCluster().getMaxRedirects());
-            clusterConfig.setMaxRedirects(3);
+            clusterConfig.setMaxRedirects(redisProperties.getCluster().getMaxRedirects());
 
             // topology 자동 업데이트 옵션 추가
             // enablePeriodicRefresh(tolpology 정보 감시 텀) default vaule : 60s
