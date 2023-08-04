@@ -8,13 +8,13 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.MDC;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.osckorea.openmsa.global.exception.Exception404;
-import com.osckorea.openmsa.global.payload.RequestHeaderPayload;
 import com.osckorea.openmsa.global.payload.RequestHeaderPayloadWrapper;
 import com.osckorea.openmsa.global.util.ThreadUtil;
 
@@ -47,9 +47,6 @@ public class kafkaHandler {
      */
     @Around("kafkaConsumer()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-
-
-        log.info("======================[kafkaHandler >> around >> START]===================");
 
         // 1. Method 확인 : Consumer(Functional Interface) accept 호출시
         Object returnValue = null;
@@ -84,44 +81,38 @@ public class kafkaHandler {
             }
         }
 
-        log.info("======================[kafkaHandler >> around >> END]===================");
-
         return returnValue;
     }
 
     /**
-     * Before : InheritableThreadLocal 헤더정보 세팅
+     * beforeTransaction
      * @param msg
      * @throws IOException
      */
     private void beforeTransaction(Message<String> msg) throws IOException {
 
-        log.info("======================[kafkaHandler >> beforeTransaction >> START]===================");
-        // 1. Header 세팅
+        /// 1. Header 정보
         RequestHeaderPayloadWrapper requestHeaderPayloadWrapper = mapper.fromJson(msg.getPayload(), RequestHeaderPayloadWrapper.class);
 
-        log.info(requestHeaderPayloadWrapper.toString());
+        // 2. MDC 세팅
+        MDC.put("trace_id", requestHeaderPayloadWrapper.getRequestHeaderPayload().getTrId());
 
-        // 2. InheritableThreadLocal : 헤더정보 세팅
+        // 3. ThreadLocal 세팅
         ThreadUtil.threadLocalRequestHeaderPayload.set(requestHeaderPayloadWrapper.getRequestHeaderPayload());
-        // ThreadUtil.inheritableThreadLocalRequestHeaderPayload.set(requestHeaderPayloadWrapper.getRequestHeaderPayload());
-
-        log.info("======================[kafkaHandler >> beforeTransaction >> END]===================");
 
     }
 
     /**
-     * After : InheritableThreadLocal 삭제
+     * afterTransaction
      * @param msg
      * @throws IOException
      */
     private void afterTransaction(Message<String> msg) throws IOException {
 
-        log.info("======================[kafkaHandler >> afterTransaction >> START]===================");
-        // 1. InheritableThreadLocal : 삭제
+        // 1. ThreadLocal remove
         ThreadUtil.threadLocalRequestHeaderPayload.remove();
-        // ThreadUtil.inheritableThreadLocalRequestHeaderPayload.remove();
 
-        log.info("======================[kafkaHandler >> afterTransaction >> END]===================");
+        // 2. MDC clear
+        MDC.clear();
     }
 }

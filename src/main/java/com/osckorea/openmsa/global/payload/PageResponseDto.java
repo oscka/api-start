@@ -1,4 +1,4 @@
-package com.osckorea.openmsa.global.util;
+package com.osckorea.openmsa.global.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

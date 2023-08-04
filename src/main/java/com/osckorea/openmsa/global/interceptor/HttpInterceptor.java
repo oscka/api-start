@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.osckorea.openmsa.global.config.Constants;
 import com.osckorea.openmsa.global.payload.RequestHeaderPayload;
 import com.osckorea.openmsa.global.util.ThreadUtil;
 
@@ -22,14 +23,14 @@ public class HttpInterceptor implements HandlerInterceptor {
 
         // HttpRequest Header 정보 세팅
         RequestHeaderPayload requestHeaderPayload = new RequestHeaderPayload();
-        requestHeaderPayload.setUserId(request.getHeader("x-user-id"));
-        requestHeaderPayload.setUserRole(request.getHeader("x-user-role"));
-        requestHeaderPayload.setDeptId(request.getHeader("x-dept-id"));
-        requestHeaderPayload.setSubjectId(request.getHeader("x-subject-id"));
-        requestHeaderPayload.setServiceId(request.getHeader("x-service-id"));
-        requestHeaderPayload.setMenuId(request.getHeader("x-menu-id"));
-        requestHeaderPayload.setViewId(request.getHeader("x-view-id"));
-        requestHeaderPayload.setTrId(request.getHeader("x-tr-id"));
+        requestHeaderPayload.setUserId(request.getHeader(Constants.HeaderKeys.USER_ID));
+        requestHeaderPayload.setUserRole(request.getHeader(Constants.HeaderKeys.USER_ROLE));
+        requestHeaderPayload.setDeptId(request.getHeader(Constants.HeaderKeys.DEPT_ID));
+        requestHeaderPayload.setSubjectId(request.getHeader(Constants.HeaderKeys.SUBJECT_ID));
+        requestHeaderPayload.setServiceId(request.getHeader(Constants.HeaderKeys.SERVICE_ID));
+        requestHeaderPayload.setMenuId(request.getHeader(Constants.HeaderKeys.MENU_ID));
+        requestHeaderPayload.setViewId(request.getHeader(Constants.HeaderKeys.VIEW_ID));
+        requestHeaderPayload.setTrId(request.getHeader(Constants.HeaderKeys.TR_ID));
         ThreadUtil.threadLocalRequestHeaderPayload.set(requestHeaderPayload);
 
         return HandlerInterceptor.super.preHandle(request, response, handler);

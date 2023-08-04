@@ -1,10 +1,8 @@
 package com.osckorea.openmsa.global.feign;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.osckorea.openmsa.global.config.Constants;
 import com.osckorea.openmsa.global.exception.Exception404;
 import com.osckorea.openmsa.global.payload.RequestHeaderPayload;
 import com.osckorea.openmsa.global.util.HttpUtil;
@@ -17,49 +15,34 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FeignInterceptor implements RequestInterceptor {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
 
-        log.info("======================[FeignInterceptor >> START]===================");
-
-        // if(requestTemplate.feignTarget().name().toString().equalsIgnoreCase("monitoring"))
-        // return;
-
         HttpServletRequest request = HttpUtil.getHttpServletRequest();
-        RequestHeaderPayload requestHeaderPayload = new RequestHeaderPayload();
 
         try {
-            Enumeration eHeader = request.getHeaderNames();
-            while (eHeader.hasMoreElements()) {
-                String headerKey = (String) eHeader.nextElement();
-                String headerValue = request.getHeader(headerKey);
-                log.info("key : " + headerKey + " || value : " + headerValue);
-
-            }
-
             // HttpRequest Header 정보 세팅
             // HttpServletRequest Null 일 경우 (ex : kafka 비동기통신)
             if (request == null) {
-                requestHeaderPayload = ThreadUtil.threadLocalRequestHeaderPayload.get();
-                requestTemplate.header("x-user-id", requestHeaderPayload.getUserId());
-                requestTemplate.header("x-user-role", requestHeaderPayload.getUserRole());
-                requestTemplate.header("x-dept-id", requestHeaderPayload.getDeptId());
-                requestTemplate.header("x-subject-id", requestHeaderPayload.getSubjectId());
-                requestTemplate.header("x-service-id", requestHeaderPayload.getServiceId());
-                requestTemplate.header("x-menu-id", requestHeaderPayload.getMenuId());
-                requestTemplate.header("x-view-id", requestHeaderPayload.getViewId());
-                requestTemplate.header("x-tr-id", requestHeaderPayload.getTrId());
+                RequestHeaderPayload requestHeaderPayload = ThreadUtil.threadLocalRequestHeaderPayload.get();
+                requestTemplate.header(Constants.HeaderKeys.USER_ID, requestHeaderPayload.getUserId());
+                requestTemplate.header(Constants.HeaderKeys.USER_ROLE, requestHeaderPayload.getUserRole());
+                requestTemplate.header(Constants.HeaderKeys.DEPT_ID, requestHeaderPayload.getDeptId());
+                requestTemplate.header(Constants.HeaderKeys.SUBJECT_ID, requestHeaderPayload.getSubjectId());
+                requestTemplate.header(Constants.HeaderKeys.SERVICE_ID, requestHeaderPayload.getServiceId());
+                requestTemplate.header(Constants.HeaderKeys.MENU_ID, requestHeaderPayload.getMenuId());
+                requestTemplate.header(Constants.HeaderKeys.VIEW_ID, requestHeaderPayload.getViewId());
+                requestTemplate.header(Constants.HeaderKeys.TR_ID, requestHeaderPayload.getTrId());
             } else {
-                requestTemplate.header("x-user-id", request.getHeader("x-user-id"));
-                requestTemplate.header("x-user-role", request.getHeader("x-user-role"));
-                requestTemplate.header("x-dept-id", request.getHeader("x-dept-id"));
-                requestTemplate.header("x-subject-id", request.getHeader("x-subject-id"));
-                requestTemplate.header("x-service-id", request.getHeader("x-service-id"));
-                requestTemplate.header("x-menu-id", request.getHeader("x-menu-id"));
-                requestTemplate.header("x-view-id", request.getHeader("x-view-id"));
-                requestTemplate.header("x-tr-id", request.getHeader("x-tr-id"));
+                requestTemplate.header(Constants.HeaderKeys.USER_ID, request.getHeader(Constants.HeaderKeys.USER_ID));
+                requestTemplate.header(Constants.HeaderKeys.USER_ROLE, request.getHeader(Constants.HeaderKeys.USER_ROLE));
+                requestTemplate.header(Constants.HeaderKeys.DEPT_ID, request.getHeader(Constants.HeaderKeys.DEPT_ID));
+                requestTemplate.header(Constants.HeaderKeys.SUBJECT_ID, request.getHeader(Constants.HeaderKeys.SUBJECT_ID));
+                requestTemplate.header(Constants.HeaderKeys.SERVICE_ID, request.getHeader(Constants.HeaderKeys.SERVICE_ID));
+                requestTemplate.header(Constants.HeaderKeys.MENU_ID, request.getHeader(Constants.HeaderKeys.MENU_ID));
+                requestTemplate.header(Constants.HeaderKeys.VIEW_ID, request.getHeader(Constants.HeaderKeys.VIEW_ID));
+                requestTemplate.header(Constants.HeaderKeys.TR_ID, request.getHeader(Constants.HeaderKeys.TR_ID));
             }
 
         } catch (Exception404 e) {
@@ -67,6 +50,5 @@ public class FeignInterceptor implements RequestInterceptor {
             throw new Exception404(e.getMessage());
         }
 
-        log.info("======================[FeignInterceptor >> END]===================");
     }
 }
