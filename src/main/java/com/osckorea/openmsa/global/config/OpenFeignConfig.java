@@ -1,6 +1,9 @@
 package com.osckorea.openmsa.global.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.osckorea.openmsa.global.feign.FeignInterceptor;
+
+import feign.RequestInterceptor;
 import feign.Retryer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -14,6 +17,11 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 @Configuration
 public class OpenFeignConfig implements Jackson2ObjectMapperBuilderCustomizer {
 
+
+    @Bean
+    public RequestInterceptor requestInterceptor() {
+        return new FeignInterceptor();
+    }
 
     @Bean
     public Retryer retryer() {

@@ -47,8 +47,8 @@ logging:
 #--------------------------
 api:
   # connect to dev api-auth
-  auth-service:
-    url: http://k8s-fms-authserv-0bf3d872e8-842010643.ap-northeast-2.elb.amazonaws.com:8080
+  # auth-service:
+  #   url: http://k8s-fms-authserv-0bf3d872e8-842010643.ap-northeast-2.elb.amazonaws.com:8080
   # connect to local api-auth
-  # auth-service: 
-  #   url: http://localhost:18080
+  auth-service: 
+    url: http://localhost:18080

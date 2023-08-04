@@ -8,6 +8,8 @@ import com.osckorea.openmsa.global.annotation.CustomLog;
 import com.osckorea.openmsa.global.exception.Exception400;
 import com.osckorea.openmsa.global.exception.Exception404;
 import com.osckorea.openmsa.global.redis.RedisOperator;
+import com.osckorea.openmsa.global.util.HttpUtil;
+import com.osckorea.openmsa.global.util.ThreadUtil;
 import com.osckorea.openmsa.global.util.damo.DamoScpHandler;
 import com.osckorea.openmsa.starter.user.domain.User;
 import com.osckorea.openmsa.starter.user.dto.UserDto;
@@ -78,33 +80,42 @@ public class UserService {
 			redisOperator.set(redisKey, user, 100, TimeUnit.SECONDS);
 		}
 
-		// D'Amo 테스트
-		log.info("[양방향] (OSCKOREA-POL-1) test ================================================");
-		String strEncB64_1 = damoScpHandler.ScpEncB64("OSCKOREA-POL-1",user.getLoginId());
-		log.info("[암호화] ScpEncB64_1 : " + strEncB64_1);
-		String strDecB64_1_OK = damoScpHandler.ScpDecB64("OSCKOREA-POL-1",strEncB64_1);
-		log.info("[복호화] (정상키) strEncB64_1 >> strDecB64_1_OK : " + strDecB64_1_OK);
-		String strDecB64_1_FAIL = damoScpHandler.ScpDecB64("OSCKOREA-POL-2",strEncB64_1);
-		log.info("[복호화] (비정상키) strEncB64_1 >> strDecB64_1_FAIL : " + strDecB64_1_FAIL);
-
-		// log.info("[양방향] (OSCKOREA-POL-2) test ================================================");
-		String strEncB64_2 = damoScpHandler.ScpEncB64("OSCKOREA-POL-2",user.getLoginId());
-		log.info("[암호화] (OSCKOREA-POL-2) ScpEncB64_2 : " + strEncB64_2);
-		String strDecB64_2_OK = damoScpHandler.ScpDecB64("OSCKOREA-POL-2",strEncB64_2);
-		log.info("[복호화] (정상키) strEncB64_2 >> strDecB64_2_OK : " + strDecB64_2_OK);
-		String strDecB64_2_FAIL = damoScpHandler.ScpDecB64("OSCKOREA-POL-1",strEncB64_2);
-		log.info("[복호화] (비정상키) strEncB64_2 >> strDecB64_2_FAIL : " + strDecB64_2_FAIL);
-
-		// log.info("[단방향] test ================================================");
-		String strHashB64 = damoScpHandler.ScpHashB64(user.getLoginId());
-		log.info("[암호화] ScpHashB64 String : " + strHashB64);
-
+		// RequestHeader 정보
+		log.info("***********************[RequestHeader 정보 >> START]**************************");
+		Map requestHeader = HttpUtil.getHeaders(HttpUtil.getHttpServletRequest());
+		log.info(requestHeader.toString());
+		log.info(ThreadUtil.threadLocalRequestHeaderPayload.get().toString());
+		log.info("***********************[RequestHeader 정보 >> END]**************************");
 
 		// Kafka 테스트
 		UserFindEvent userFindEvent = UserFindEvent.builder()
 				.loginId(loginId)
+				.name("관리자")
 				.build();
 		userKafkaProducer.findUser(userFindEvent);
+
+		// D'Amo 테스트
+		// log.info("[양방향] (OSCKOREA-POL-1) test ================================================");
+		// String strEncB64_1 = damoScpHandler.ScpEncB64("OSCKOREA-POL-1",user.getLoginId());
+		// log.info("[암호화] ScpEncB64_1 : " + strEncB64_1);
+		// String strDecB64_1_OK = damoScpHandler.ScpDecB64("OSCKOREA-POL-1",strEncB64_1);
+		// log.info("[복호화] (정상키) strEncB64_1 >> strDecB64_1_OK : " + strDecB64_1_OK);
+		// String strDecB64_1_FAIL = damoScpHandler.ScpDecB64("OSCKOREA-POL-2",strEncB64_1);
+		// log.info("[복호화] (비정상키) strEncB64_1 >> strDecB64_1_FAIL : " + strDecB64_1_FAIL);
+
+		// // log.info("[양방향] (OSCKOREA-POL-2) test ================================================");
+		// String strEncB64_2 = damoScpHandler.ScpEncB64("OSCKOREA-POL-2",user.getLoginId());
+		// log.info("[암호화] (OSCKOREA-POL-2) ScpEncB64_2 : " + strEncB64_2);
+		// String strDecB64_2_OK = damoScpHandler.ScpDecB64("OSCKOREA-POL-2",strEncB64_2);
+		// log.info("[복호화] (정상키) strEncB64_2 >> strDecB64_2_OK : " + strDecB64_2_OK);
+		// String strDecB64_2_FAIL = damoScpHandler.ScpDecB64("OSCKOREA-POL-1",strEncB64_2);
+		// log.info("[복호화] (비정상키) strEncB64_2 >> strDecB64_2_FAIL : " + strDecB64_2_FAIL);
+
+		// // log.info("[단방향] test ================================================");
+		// String strHashB64 = damoScpHandler.ScpHashB64(user.getLoginId());
+		// log.info("[암호화] ScpHashB64 String : " + strHashB64);
+
+
 
 		log.info("Login Id 확인 : " + user.getLoginId());
 		return user.toDto();

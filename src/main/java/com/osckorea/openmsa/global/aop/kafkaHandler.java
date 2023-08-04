@@ -1,0 +1,127 @@
+package com.osckorea.openmsa.global.aop;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
+import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.osckorea.openmsa.global.exception.Exception404;
+import com.osckorea.openmsa.global.payload.RequestHeaderPayload;
+import com.osckorea.openmsa.global.payload.RequestHeaderPayloadWrapper;
+import com.osckorea.openmsa.global.util.ThreadUtil;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
+@Aspect
+@Component
+public class kafkaHandler {
+    
+    Jackson2JsonObjectMapper mapper = new Jackson2JsonObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * Pointcut : Kafka Consumer(Function Interface) accept 호출시 실행
+     */
+    @Pointcut("bean(findUser*) && execution(* com.osckorea.openmsa..kafka..accept(..))")
+    // @Pointcut("@annotation(com.osckorea.openmsa.global.annotation.CustomKafkaConsumer)")
+    public void kafkaConsumer() {
+        log.info("kafkaConsumer");
+    }
+
+    /**
+     * Around : kafkaConsumer
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
+    @Around("kafkaConsumer()")
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+
+
+        log.info("======================[kafkaHandler >> around >> START]===================");
+
+        // 1. Method 확인 : Consumer(Functional Interface) accept 호출시
+        Object returnValue = null;
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+
+        if(method.toString().matches("(.*)java.util.function.Consumer.accept(.*)")){
+
+            // 2. Args 확인 : kafka Event Message 세팅
+            Object[] objects = joinPoint.getArgs();
+            Message<String> msg = (Message<String>) objects[0];
+            log.info("{}", msg);
+
+            // 3. Before : InheritableThreadLocal 헤더정보 세팅
+            beforeTransaction(msg);
+
+            try {
+                returnValue = joinPoint.proceed();
+            } catch (Throwable e) {
+                afterTransaction(msg);
+                return returnValue;
+            }
+        
+            // 4. After : InheritableThreadLocal 제거
+            afterTransaction(msg);
+        }
+        else {
+            try {
+                returnValue = joinPoint.proceed();
+            } catch (RuntimeException e) {
+                throw new Exception404(e.getMessage());
+            }
+        }
+
+        log.info("======================[kafkaHandler >> around >> END]===================");
+
+        return returnValue;
+    }
+
+    /**
+     * Before : InheritableThreadLocal 헤더정보 세팅
+     * @param msg
+     * @throws IOException
+     */
+    private void beforeTransaction(Message<String> msg) throws IOException {
+
+        log.info("======================[kafkaHandler >> beforeTransaction >> START]===================");
+        // 1. Header 세팅
+        RequestHeaderPayloadWrapper requestHeaderPayloadWrapper = mapper.fromJson(msg.getPayload(), RequestHeaderPayloadWrapper.class);
+
+        log.info(requestHeaderPayloadWrapper.toString());
+
+        // 2. InheritableThreadLocal : 헤더정보 세팅
+        ThreadUtil.threadLocalRequestHeaderPayload.set(requestHeaderPayloadWrapper.getRequestHeaderPayload());
+        // ThreadUtil.inheritableThreadLocalRequestHeaderPayload.set(requestHeaderPayloadWrapper.getRequestHeaderPayload());
+
+        log.info("======================[kafkaHandler >> beforeTransaction >> END]===================");
+
+    }
+
+    /**
+     * After : InheritableThreadLocal 삭제
+     * @param msg
+     * @throws IOException
+     */
+    private void afterTransaction(Message<String> msg) throws IOException {
+
+        log.info("======================[kafkaHandler >> afterTransaction >> START]===================");
+        // 1. InheritableThreadLocal : 삭제
+        ThreadUtil.threadLocalRequestHeaderPayload.remove();
+        // ThreadUtil.inheritableThreadLocalRequestHeaderPayload.remove();
+
+        log.info("======================[kafkaHandler >> afterTransaction >> END]===================");
+    }
+}

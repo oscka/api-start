@@ -7,6 +7,9 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 
+import com.osckorea.openmsa.global.annotation.CustomKafkaConsumer;
+import com.osckorea.openmsa.global.util.ThreadUtil;
+
 import java.util.function.Consumer;
 
 /**
@@ -21,11 +24,13 @@ public class UserKafkaConsumer {
         * @return
         */
     @Bean
+    @CustomKafkaConsumer
     Consumer<Message<String>> findUser() {
         return ((input) ->{
         try {
             log.info("[Kafka-Consumer] >> UserKafkaConsumer.findUser >> Header : {}", input.getHeaders());
             log.info("[Kafka-Consumer] >> UserKafkaConsumer.findUser >> Payload : {}", input.getPayload());
+            log.info("[Kafka-Consumer] >> UserKafkaConsumer.findUser >> threadLocalRequestHeaderPayload : {}", ThreadUtil.threadLocalRequestHeaderPayload.get().toString());
 
             // 로직 수행후 offset 커밋
             Acknowledgment acknowledgment = input.getHeaders().get(KafkaHeaders.ACKNOWLEDGMENT, Acknowledgment.class);
