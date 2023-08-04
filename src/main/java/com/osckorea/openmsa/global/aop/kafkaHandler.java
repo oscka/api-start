@@ -33,11 +33,10 @@ public class kafkaHandler {
     /**
      * Pointcut : Kafka Consumer(Function Interface) accept 호출시 실행
      */
-    @Pointcut("bean(findUser*) && execution(* com.osckorea.openmsa..kafka..accept(..))")
+    @Pointcut("execution(* com.osckorea.openmsa..kafka..accept(..))")
+    // @Pointcut("bean(kafkaFunction*) && execution(* com.osckorea.openmsa..kafka..accept(..))")
     // @Pointcut("@annotation(com.osckorea.openmsa.global.annotation.CustomKafkaConsumer)")
-    public void kafkaConsumer() {
-        log.info("kafkaConsumer");
-    }
+    public void kafkaConsumer() {}
 
     /**
      * Around : kafkaConsumer
@@ -58,9 +57,8 @@ public class kafkaHandler {
             // 2. Args 확인 : kafka Event Message 세팅
             Object[] objects = joinPoint.getArgs();
             Message<String> msg = (Message<String>) objects[0];
-            log.info("{}", msg);
 
-            // 3. Before : InheritableThreadLocal 헤더정보 세팅
+            // 3. Before : MDC 세팅, ThreadLocal 세팅
             beforeTransaction(msg);
 
             try {
@@ -70,7 +68,7 @@ public class kafkaHandler {
                 return returnValue;
             }
         
-            // 4. After : InheritableThreadLocal 제거
+            // 4. After : MDC clear, ThreadLocal remove
             afterTransaction(msg);
         }
         else {

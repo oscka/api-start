@@ -1,4 +1,4 @@
-package com.osckorea.openmsa.starter.user.kafka;
+package com.osckorea.openmsa.starter.user.kafka.binder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class UserKafkaProducer {
+public class UserFindProducer {
 
     private final StreamBridge streamBridge;
 
@@ -28,7 +28,7 @@ public class UserKafkaProducer {
             UserFindEventWrapper userFindEventWrapper = UserFindEventWrapper.setRequestHeader(userFindEvent);
 
             // message 전송
-            boolean result = streamBridge.send("findUser-out-0", MessageBuilder
+            boolean result = streamBridge.send("kafkaFunctionFindUser-out-0", MessageBuilder
                 .withPayload(userFindEventWrapper)
                 .setHeader(KafkaHeaders.MESSAGE_KEY, UUID.randomUUID().toString())
                 .build());

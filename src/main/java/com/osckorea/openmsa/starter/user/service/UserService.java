@@ -14,7 +14,7 @@ import com.osckorea.openmsa.global.util.damo.DamoScpHandler;
 import com.osckorea.openmsa.starter.user.domain.User;
 import com.osckorea.openmsa.starter.user.dto.UserDto;
 import com.osckorea.openmsa.starter.user.feign.AuthFeignClient;
-import com.osckorea.openmsa.starter.user.kafka.UserKafkaProducer;
+import com.osckorea.openmsa.starter.user.kafka.binder.UserFindProducer;
 import com.osckorea.openmsa.starter.user.kafka.event.UserFindEvent;
 import com.osckorea.openmsa.starter.user.repository.UserRepository;
 
@@ -34,7 +34,7 @@ public class UserService {
 
 	private final AuthFeignClient authFeignClient;
 	
-	private final UserKafkaProducer userKafkaProducer;
+	private final UserFindProducer userKafkaProducer;
 
 	private final DamoScpHandler damoScpHandler;
 

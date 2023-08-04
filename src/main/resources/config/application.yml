@@ -29,16 +29,16 @@ spring:
       defaultBinder: kafka
       # spring.cloud.stream.function
       function:
-        definition: findUser;
+        definition: kafkaFunctionFindUser;
       # spring.cloud.stream.bindings
       bindings:
-        findUser-in-0:
+        kafkaFunctionFindUser-in-0:
           destination: find-user-topic
           group: user
           contentType: application/json
           consumer:
             max-attempts: 2
-        findUser-out-0:
+        kafkaFunctionFindUser-out-0:
           destination: find-user-topic
           contentType: application/json
       # spring.cloud.stream.kafka
@@ -51,7 +51,7 @@ spring:
             useTopicHeader: true
         # spring.cloud.stream.kafka.bindings
         bindings:
-          findUser-in-0:
+          kafkaFunctionFindUser-in-0:
             consumer:
               autoCommitOffset: false # 메시지가 처리되었을 경우, 오프셋을 자동으로 커밋할지를 설정한다.
               enableDlq: true
