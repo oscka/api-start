@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.osckorea.openmsa.starter.notice.domain.Notice;
 import com.osckorea.openmsa.starter.notice.dto.NoticeDto;
 import com.osckorea.openmsa.starter.notice.service.NoticeService;
 import com.osckorea.openmsa.starter.pagination.controller.PaginationAbstractController;
-import com.osckorea.openmsa.starter.pagination.service.PaginationAbstractService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -22,29 +22,26 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class NoticeController extends PaginationAbstractController<Notice, Integer, NoticeDto>{
     private final NoticeService noticeService;
 
-    public NoticeController(
-        PaginationAbstractService<Notice, Integer, NoticeDto> paginationService,
-        NoticeService noticeService
-    ) {
-        super(paginationService);
+    public NoticeController(NoticeService noticeService) {
+        super(noticeService);
 
         this.noticeService = noticeService;
     }
 
     @Operation(summary = "공지사항 게시글 번호로 조회", description = "특정 번호로 단건 조회합니다.")
-    @GetMapping("/:{index}")
+    @GetMapping(params = "index")
     public NoticeDto findByNoticeNumber(
-        @PathVariable("index") Integer index
+        @RequestParam("index") Integer index
     ) {
         return this.noticeService.findByNoticeNumber(index);
     }
 
     @Operation(summary = "공지사항 게시글 제목으로 조회", description = "특정 제목으로 단건 조회합니다.")
-    @GetMapping("/:{subject}")
+    @GetMapping(params = "subject")
     public NoticeDto findByNoticeSubject(
-        @PathVariable("subject") String subject
+        @RequestParam("subject") String subject
     ) {
-        return NoticeDto.builder().build();
+        return this.noticeService.findByNoticeSubject(subject);
     }
 
     @Operation(summary = "공지사항 게시글 생성", description = "새로운 공지사항 게시글을 등록합니다.")

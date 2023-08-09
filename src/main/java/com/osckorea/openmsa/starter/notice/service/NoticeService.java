@@ -5,18 +5,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.osckorea.openmsa.starter.notice.domain.Notice;
 import com.osckorea.openmsa.starter.notice.dto.NoticeDto;
 import com.osckorea.openmsa.starter.notice.repository.NoticeRepository;
-import com.osckorea.openmsa.starter.pagination.repository.PaginationRepository;
 import com.osckorea.openmsa.starter.pagination.service.PaginationAbstractService;
 
 @Service
 public class NoticeService extends PaginationAbstractService<Notice, Integer, NoticeDto>{
     private final NoticeRepository noticeRepository;
 
-    public NoticeService(
-        PaginationRepository<Notice, Integer> paginationRepository,
-        NoticeRepository noticeRepository
-    ) {
-        super(paginationRepository);
+    public NoticeService(NoticeRepository noticeRepository) {
+        super(noticeRepository);
 
         this.noticeRepository = noticeRepository;
     }
