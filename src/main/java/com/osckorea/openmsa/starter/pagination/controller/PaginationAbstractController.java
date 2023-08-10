@@ -1,12 +1,14 @@
 package com.osckorea.openmsa.starter.pagination.controller;
 
 import java.util.List;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.osckorea.openmsa.starter.pagination.annotation.PageableSchema;
 import com.osckorea.openmsa.starter.pagination.service.PaginationAbstractService;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * [ PaginationController]
@@ -24,36 +26,20 @@ public abstract class PaginationAbstractController<E, ET, D> {
     public PaginationAbstractController(PaginationAbstractService<E, ET ,D> paginationService) {
         this.paginationService = paginationService;
     }
-
-    @GetMapping(params = {"page", "size", "sortBy"})
-    public List<D> findallByPagingAndSorting(
-        @RequestParam(value = "page") final Integer page,
-        @RequestParam(value = "size") final Integer pageSize,
-        @RequestParam(value = "sortBy") final String sortBy,
-        @RequestParam(value = "sortOrder") final String sortOrder
+    
+    @PageableSchema
+    @Operation(summary = "페이징 조회",description = "페이지네이션 된 데이터 및 페이지 요청 정보를 조회합니다.")
+    @GetMapping("/pagination")
+    public Page<D> findByPageableWithPageInfo(
+        @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable
     ) {
-        PageRequest pageRequest = PageRequest.of(page, pageSize, Direction.fromString(sortOrder), sortBy);
-
-        return this.paginationService.findAllEntities(pageRequest);
+        return this.paginationService.findByPageableWithPageInfo(pageable);
     }
 
-    @GetMapping(params = {"page", "size"})
-    public List<D> findAllByPaging(
-        @RequestParam(value = "page") final Integer page,
-        @RequestParam(value = "size") final Integer pageSize
-    ) {
-        PageRequest pageRequest = PageRequest.of(page, pageSize);
-
-        return this.paginationService.findAllEntities(pageRequest);
-    }
-
-    @GetMapping(params = {"sortBy"})
-    public List<D> findAllBySorting(
-        @RequestParam(value = "sortBy") final String sortBy,
-        @RequestParam(value = "sortOrder") final String sortOrder
-    ) {
-        Sort sort = Sort.by(Direction.fromString(sortOrder), sortBy);
-
-        return this.paginationService.findAllEntities(sort);
+    @PageableSchema
+    @GetMapping("/pagination/contents")
+    @Operation(summary = "페이징 데이터만 조회", description = "페이지네이션 된 데이터만 조회합니다.")
+    public List<D> findByPageable(@ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return this.paginationService.findByPageable(pageable);
     }
 }

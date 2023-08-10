@@ -3,8 +3,8 @@ package com.osckorea.openmsa.starter.pagination.service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import com.osckorea.openmsa.starter.pagination.repository.PaginationRepository;
 import com.osckorea.openmsa.starter.pagination.utils.GenericConverter;
 
@@ -26,7 +26,19 @@ public abstract class PaginationAbstractService<E, ET, D> implements GenericConv
         this.paginationRepository = paginationRepository;
     }
 
-    public List<D> findAllEntities(PageRequest pageRequest) {
+    public Page<D> findByPageableWithPageInfo(Pageable pageRequest) {
+        Page<E> result = this.paginationRepository.findAll(pageRequest);
+
+        if(result.isEmpty()) {
+            return new PageImpl<D>(
+                new ArrayList<D>()
+            );
+        }
+
+        return convert(result);
+    }
+
+    public List<D> findByPageable(Pageable pageRequest) {
         Page<E> result = this.paginationRepository.findAll(pageRequest); 
 
         if(result.isEmpty()) {
@@ -36,9 +48,4 @@ public abstract class PaginationAbstractService<E, ET, D> implements GenericConv
         return convert(result.getContent());
     }
 
-    public List<D> findAllEntities(Sort sort) {
-        List<E> result = (List<E>) this.paginationRepository.findAll(sort);
-
-        return convert(result);
-    }
 }

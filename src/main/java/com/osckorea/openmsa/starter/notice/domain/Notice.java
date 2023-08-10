@@ -21,14 +21,14 @@ import lombok.NoArgsConstructor;
 public class Notice extends GenericAbstractEntity<NoticeDto>{
     @Schema(description = "공지사항 게시글 번호", nullable = false ,example = "1")
     @Id
-    @Column("notic_no")
+    @Column("notice_no")
     private Integer noticeIndex;
 
-    @Schema(description = "공지사항 게시글 제목", nullable = false, example = "Test Subject")
+    @Schema(description = "공지사항 게시글 제목", nullable = false, example = "Test1")
     @Column("subject")
     private String noticeSubject;
 
-    @Schema(description = "공지사항 게시글 내용", nullable = false, example = "Test Content")
+    @Schema(description = "공지사항 게시글 내용", nullable = false, example = "CONTENT0001")
     @Column("content")
     private String noticeContents;
 
@@ -44,7 +44,7 @@ public class Notice extends GenericAbstractEntity<NoticeDto>{
     @Column("use_yn")
     private String isActive;
 
-    @Schema(description = "공지사항 게시글 작성자", nullable = false, example = "user1")
+    @Schema(description = "공지사항 게시글 작성자", nullable = false, example = "admin")
     @Column("first_reg_id")
     private String writeId;
 

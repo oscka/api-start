@@ -3,6 +3,8 @@ package com.osckorea.openmsa.starter.pagination.utils;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 /**
  * [ GenericConverter ]
@@ -24,6 +26,18 @@ public interface GenericConverter<I, O> extends Function<I, O> {
     default List<O> convert(final Collection<I> objectList) {
         if(objectList != null) {
             return objectList.stream().map(this::apply).toList();
+        }
+
+        return null;
+    }
+
+    default Page<O> convert(final Page<I> objectPageInfo) {
+        if(objectPageInfo != null) {
+            return new PageImpl<O>(
+                objectPageInfo.getContent().stream().map(this::apply).toList(),
+                objectPageInfo.getPageable(),
+                objectPageInfo.getTotalElements()
+            ); 
         }
 
         return null;

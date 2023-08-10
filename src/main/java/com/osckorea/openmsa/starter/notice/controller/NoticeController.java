@@ -28,15 +28,15 @@ public class NoticeController extends PaginationAbstractController<Notice, Integ
         this.noticeService = noticeService;
     }
 
-    @Operation(summary = "공지사항 게시글 번호로 조회", description = "특정 번호로 단건 조회합니다.")
-    @GetMapping(params = "index")
+    @Operation(summary = "공지사항 게시글 번호로 단건 조회", description = "번호로 단건의 공지사항 게시글을 조회합니다.")
+    @GetMapping("/:{index}")
     public NoticeDto findByNoticeNumber(
-        @RequestParam("index") Integer index
+        @PathVariable("index") Integer index
     ) {
         return this.noticeService.findByNoticeNumber(index);
     }
 
-    @Operation(summary = "공지사항 게시글 제목으로 조회", description = "특정 제목으로 단건 조회합니다.")
+    @Operation(summary = "공지사항 게시글 제목으로 단건 조회", description = "제목으로 단건의 공지사항 게시글을 조회합니다.")
     @GetMapping(params = "subject")
     public NoticeDto findByNoticeSubject(
         @RequestParam("subject") String subject
