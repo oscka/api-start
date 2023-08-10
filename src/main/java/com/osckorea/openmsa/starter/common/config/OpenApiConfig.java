@@ -82,6 +82,17 @@ public class OpenApiConfig {
                 .build();
     }
 
+    /**
+     * 6) API Grouping > Notice
+     */
+    @Bean
+    public GroupedOpenApi noticeApi() {
+        return GroupedOpenApi.builder()
+                .group("Notice API")
+                .pathsToMatch("/v1/notices/**")
+                .build();
+    }
+
     @Bean
     public OpenAPI openAPI() {
 
