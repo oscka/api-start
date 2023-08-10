@@ -1,0 +1,70 @@
+#---------------------------------------------
+# notices.http
+# 공지사항 게시글 API > 일부 admin 권한 필요
+#---------------------------------------------
+
+#====== 페이지네이션 기능 =======
+
+### 1. 페이징 및 정렬 조회
+GET http://localhost:8080/v1/notices
+    ?page=0
+    &size=3
+    &sortBy=noticeIndex
+    &sortOrder=ASC
+
+### 2. 페이징 조회
+GET http://localhost:8080/v1/notices
+    ?page=0
+    &size=3
+
+### 3. 정렬 조회
+GET http://localhost:8080/v1/notices
+    ?sortBy=noticeIndex
+    &sortOrder=DESC
+
+#================================
+
+#---------------------------------------------
+
+#======= 추가 구현된 기능 =======
+
+### 4. 공지사항 게시글 번호를 조건으로 단건 조회
+GET http://localhost:8080/v1/notices/
+    ?index=1
+
+
+### 5. 공지사항 게시글 번호를 조건으로 단건 조회
+GET http://localhost:8080/v1/notices/
+    ?subject=Test Save Subject12
+
+
+### 6. 새로운 공지사항 게시글 등록
+POST http://localhost:8080/v1/notices
+Content-Type: application/json
+
+{
+    "subject": "Test Save Subject123",
+    "contents": "Test Save Content",
+    "ipAddr": "127.0.0.1",
+    "writeId": "user1",
+    "isActive": "Y",
+    "hitCnt": 0                         
+}
+
+### 7. 기존 공지사항 게시글 수정
+PUT http://localhost:8080/v1/notices/:1
+Content-Type: application/json
+
+{
+    "subject": "Test Update Subject",
+    "contents": "Test Update Content",
+    "hitCnt": 0,
+    "ipAddr": "127.0.0.1",
+    "isActive": "Y",
+    "modifyId": "user1"
+}
+
+### 8. 기존 공지사항 게시글 삭제
+DELETE http://localhost:8080/v1/notices/:1
+
+#================================
