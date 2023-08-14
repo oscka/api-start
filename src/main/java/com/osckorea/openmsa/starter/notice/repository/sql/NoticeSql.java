@@ -8,7 +8,7 @@ public class NoticeSql {
 
     public static final String INSERT_NOTICE = """
             INSERT INTO tb_notice(
-                notic_no,
+                notice_no,
                 subject,
                 content,
                 ip_addr,
@@ -36,13 +36,13 @@ public class NoticeSql {
                 use_yn = :isActive,
                 last_change_id = :modifyId,
                 last_change_dt = :modifyDate
-            WHERE notic_no = :noticeIndex
+            WHERE notice_no = :noticeIndex
             """;
     
     public static final String DELETE_BY_INDEX = """
             DELETE
             FROM tb_notice
-            WHERE notic_no = :noticeIndex
+            WHERE notice_no = :noticeIndex
             """;
 
     public final String customQueryBuilder(String query, String keyWord, String customQuery) {
