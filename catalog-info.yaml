@@ -1,0 +1,30 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api-start
+  title: api-start
+  description: |
+    템플릿 프로젝트 - api-start
+  links:
+    - title: GitHub
+      url: https://github.com/oscka/api-start
+  annotations:
+    backstage.io/managed-by-location: url:https://github.com/oscka/api-start/blob/main/catalog-info.yaml
+    backstage.io/kubernetes-id: starter
+    backstage.io/techdocs-ref: dir:.
+    #starter.backstage.io/techdocs-builder: local
+    github.com/project-slug: oscka/api-start
+    jenkins.io/job-full-name: api-start
+    sonarqube.org/project-key: default/evelyn0410_starter
+    nexus-repository-manager/docker.image-name: api-start
+    argocd/app-name: api-start
+spec:
+  type: service
+  system: openmsa-idp
+  owner: team-develop
+  lifecycle: production
+  dependsOn:
+    - resource:argocd
+    - resource:nexus
+    - resource:github
+    - resource:sonarqube
