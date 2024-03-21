@@ -10,7 +10,6 @@ import com.osckorea.openmsa.global.exception.Exception404;
 import com.osckorea.openmsa.global.redis.RedisOperator;
 import com.osckorea.openmsa.global.util.HttpUtil;
 import com.osckorea.openmsa.global.util.ThreadUtil;
-import com.osckorea.openmsa.global.util.damo.DamoScpHandler;
 import com.osckorea.openmsa.starter.user.domain.User;
 import com.osckorea.openmsa.starter.user.dto.UserDto;
 import com.osckorea.openmsa.starter.user.feign.AuthFeignClient;
@@ -35,8 +34,6 @@ public class UserService {
 	private final AuthFeignClient authFeignClient;
 	
 	private final UserFindProducer userKafkaProducer;
-
-	private final DamoScpHandler damoScpHandler;
 
 	/**
 	 * 회원가입
