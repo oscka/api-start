@@ -3,10 +3,11 @@ plugins {
 	id 'org.springframework.boot' version '2.7.12'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'com.google.cloud.tools.jib' version '3.3.0'
+	id 'maven-publish'
 }
 
 group = 'com.osckorea'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = JavaVersion.VERSION_17
 
 
@@ -92,4 +93,26 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      groupId = 'com.osckorea.openmsa'
+      artifactId = 'api-start'
+      version = '0.0.1'
+      artifact 'build/libs/api-start-0.0.1.jar'
+    }
+  }
+  repositories {
+    maven {
+      	url = 'http://192.168.41.50:18081/repository/maven-releases/'
+	  	allowInsecureProtocol = true
+	  	credentials {
+			username = "oscka"
+			password = "osckorea!"
+		}
+		
+	}
+  }
 }
