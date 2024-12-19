@@ -14,12 +14,12 @@ spring:
   #-------------------------
   # REDIS (spring.redis)
   #-------------------------
-  redis:
-    cluster:
-      mode: true
-      # 6379 : master , 6380 slave
-      nodes: redis-service.redis:6379,redis-service.redis:6380
-      max-redirect: 3
+  # redis:
+  #   cluster:
+  #     mode: true
+  #     # 6379 : master , 6380 slave
+  #     nodes: redis-service.redis:6379,redis-service.redis:6380
+  #     max-redirect: 3
   #--------------------------
   # spring.cloud.stream (kafka 설정)
   #--------------------------

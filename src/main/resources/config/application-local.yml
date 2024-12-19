@@ -4,10 +4,10 @@
 #-------------------------
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.41.50:5432/openmsadb
+    url: jdbc:postgresql://localhost:5432/sbomandb
     driverClassName: org.postgresql.Driver
-    username: openmsauser
-    password: open1234!!
+    username: sbomanuser
+    password: sbom1234!!
     # url: jdbc:h2:mem:starter;MODE=PostgreSQL;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true
     #url: jdbc:h2:mem:starter;INIT=RUNSCRIPT FROM 'classpath:db/ddl.sql';MODE=PostgreSQL;DATABASE_TO_UPPER=false;CASE_INSENSITIVE_IDENTIFIERS=true
     #url: jdbc:h2:~/starter;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
@@ -22,12 +22,12 @@ spring:
   #-------------------------
   # spring.redis
   #-------------------------
-  redis:
+  # redis:
     # host: host.docker.internal
-    host: 192.168.41.50 #로컬접속용 개발서버 설치 redis
-    port: 6379
-    cluster:
-      mode: false
+    # host: 192.168.41.50 #로컬접속용 개발서버 설치 redis
+    # port: 6379
+    # cluster:
+    #   mode: false
   #--------------------------
   # spring.cloud.stream (kafka 설정)
   #--------------------------

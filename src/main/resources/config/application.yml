@@ -53,9 +53,9 @@ spring:
         bindings:
           kafkaFunctionFindUser-in-0:
             consumer:
-              autoCommitOffset: false # 메시지가 처리되었을 경우, 오프셋을 자동으로 커밋할지를 설정한다.
-              enableDlq: true
-              dlqName: find-user-dlq
+              # autoCommitOffset: false # 메시지가 처리되었을 경우, 오프셋을 자동으로 커밋할지를 설정한다.
+              # enableDlq: true
+              # dlqName: find-user-dlq
               #dlqPartitions: 1
         # spring.cloud.stream.kafka.binder
         binder:
