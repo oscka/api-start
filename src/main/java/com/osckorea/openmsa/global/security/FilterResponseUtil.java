@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import com.osckorea.openmsa.global.api.ApiResponseDto;
 import com.osckorea.openmsa.global.util.CustomObjectMapper;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 

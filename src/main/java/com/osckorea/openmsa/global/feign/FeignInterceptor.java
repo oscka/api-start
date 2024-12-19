@@ -1,6 +1,6 @@
 package com.osckorea.openmsa.global.feign;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.osckorea.openmsa.global.config.Constants;
 import com.osckorea.openmsa.global.exception.Exception404;

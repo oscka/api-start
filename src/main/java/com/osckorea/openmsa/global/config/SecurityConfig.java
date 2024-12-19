@@ -44,7 +44,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers(PERMIT_URL_ARRAY);
+        return (web) -> web.ignoring().requestMatchers(PERMIT_URL_ARRAY);
     }
 
     @Bean
@@ -98,32 +98,32 @@ public class SecurityConfig {
          SecurityConfig 에서 지정한 authenticationEntryPoint 와  accessDeniedHandler 는 GlobalExceptionHandler 에서 처리하지 않음
          */
         // 6. 인증 실패 처리
-        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            log.warn("인증되지 않은 사용자가 resource 접근 : {}",authException.getMessage());
-            FilterResponseUtil.unAuthorized(response, new Exception401("인증되지 않았습니다"));
-        });
+        // http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+        //     log.warn("인증되지 않은 사용자가 resource 접근 : {}",authException.getMessage());
+        //     FilterResponseUtil.unAuthorized(response, new Exception401("인증되지 않았습니다"));
+        // });
 
         // 7. 권한 실패 처리
-        http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-            log.warn("권한이 없는 사용자가 resource 접근 : {}",accessDeniedException.getMessage());
-            FilterResponseUtil.forbidden(response, new Exception403("권한이 없습니다"));
-        });
+        // http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
+        //     log.warn("권한이 없는 사용자가 resource 접근 : {}",accessDeniedException.getMessage());
+        //     FilterResponseUtil.forbidden(response, new Exception403("권한이 없습니다"));
+        // });
 
 
         // 8. 인증, 권한 필터 설정
         http
             // img , css 과 같은 static resources 는 허용
-            .authorizeRequests().requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+            .authorizeHttpRequests().requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             .and()
-            .authorizeRequests().antMatchers(PERMIT_URL_ARRAY).permitAll()
+            .authorizeHttpRequests().requestMatchers(PERMIT_URL_ARRAY).permitAll()
             .and()
-            .authorizeRequests(
+            .authorizeHttpRequests(
                     authorize -> authorize
-                            .antMatchers("/v1/order/**").authenticated()
-                            .antMatchers("/v1/admin/**").hasRole("ADMIN")
-                            .antMatchers("/v1/customer/**").hasRole("ADMIN")
-                            .antMatchers("/v1/member/**").access("hasRole('CUSTOMER') or hasRole('ADMIN')")
-                            .antMatchers("/v1/product/**").access("hasRole('CUSTOMER') or hasRole('MEMBER')")
+                            .requestMatchers("/v1/order/**").authenticated()
+                            .requestMatchers("/v1/admin/**").hasRole("ADMIN")
+                            .requestMatchers("/v1/customer/**").hasRole("ADMIN")
+                            // .requestMatchers("/v1/member/**").access("hasRole('CUSTOMER') or hasRole('ADMIN')")
+                            // .requestMatchers("/v1/product/**").access("hasRole('CUSTOMER') or hasRole('MEMBER')")
                             .anyRequest().permitAll()
             );
 

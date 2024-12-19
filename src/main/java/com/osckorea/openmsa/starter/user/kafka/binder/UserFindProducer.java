@@ -30,7 +30,7 @@ public class UserFindProducer {
             // message 전송
             boolean result = streamBridge.send("kafkaFunctionFindUser-out-0", MessageBuilder
                 .withPayload(userFindEventWrapper)
-                .setHeader(KafkaHeaders.MESSAGE_KEY, UUID.randomUUID().toString())
+                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
                 .build());
             
             log.info("[Kafka-Producer] --- UserKafkaProducer.findUser --- findUser-out-0 >>> result : {}", result);

@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,6 +15,9 @@ import org.springframework.web.util.WebUtils;
 
 import com.osckorea.openmsa.global.wrapper.CachingRequestWrapper;
 import com.osckorea.openmsa.global.wrapper.CachingResponseWrapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class HttpUtil {
 
@@ -33,11 +33,11 @@ public class HttpUtil {
         String reqBody = null;
         CachingRequestWrapper wrapper = WebUtils.getNativeRequest(request, CachingRequestWrapper.class);
         if (wrapper != null) {
-            if (wrapper.getContentLength() > 0) {
-                InputStream inputStream = wrapper.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                reqBody = bufferedReader.lines().collect(Collectors.joining());
-            }
+            // if (wrapper.getContentLengthLong() > 0) {
+            //     InputStream inputStream = wrapper.getInputStream();
+            //     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            //     reqBody = bufferedReader.lines().collect(Collectors.joining());
+            // }
         }
         return reqBody;
     }

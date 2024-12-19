@@ -6,7 +6,7 @@ import org.springframework.data.relational.core.mapping.Column;
 
 import com.osckorea.openmsa.global.enums.UserRole;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Builder
 @Value

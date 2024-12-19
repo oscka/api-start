@@ -18,7 +18,8 @@ public class NoticeService extends PaginationAbstractService<Notice, Integer, No
     }
 
     public NoticeDto findByNoticeNumber(Integer index) {
-        return this.noticeRepository.findById(index).orElse(new Notice()).toDto();
+        // return this.noticeRepository.findB(index).orElse(new Notice()).toDto();
+        return null;
     }
 
     public NoticeDto findByNoticeSubject(String subject) {
