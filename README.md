@@ -20,4 +20,4 @@ OpenMSA inner 템플릿 프로젝트 - Starter
 2. [Project 에러 처리](/md/02-project-error.md)
 3. [Kafka Streams - Spring Cloud Streams](/md/03-kafka-streams.md)
 4. [Kafka Properties](/md/04-kafka-properties.md)
-5. [Skaffold Build and Dockerize] - (/md/05-skaffold-and-kustomize.md)
+5. [Skaffold Build and Dockerize](/md/05-skaffold-and-kustomize.md)
