@@ -17,4 +17,4 @@ profiles:
     deploy:
       kustomize:
         paths:
-          - k8s/k3s
+          - k8s/dev

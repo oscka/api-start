@@ -1,4 +1,4 @@
-# 05-kafka-properties.md
+# 04-kafka-properties.md
 
 ### Kafka Binder Properties
 
